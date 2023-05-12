@@ -12,8 +12,6 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@master
-      - name: install npm
-        run: npm install
       - name: install firebase
         run: npm install --save-dev firebase-tools
         # 認証情報を保持するjsonファイルをGOOGLE_APPLICATION_CREDENTIALSで指定したpassに生成
