@@ -17,6 +17,9 @@ jobs:
         # 認証情報を保持するjsonファイルをGOOGLE_APPLICATION_CREDENTIALSで指定したpassに生成
       - name: make GOOGLE_APPLICATION_CREDENTIALS
         run: echo $GCLOUD_SERVICE_KEY | base64 -d > $GOOGLE_APPLICATION_CREDENTIALS
+      - name: init environment
+        run: |
+         ./node_modules/.bin/firebase init
       - name: change environment
         run: |
          ./node_modules/.bin/firebase use aitcweb-prod
