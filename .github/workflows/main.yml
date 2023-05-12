@@ -1,0 +1,29 @@
+name: deploy_firebase_hosting
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy_firebase_hosting:
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      GCLOUD_SERVICE_KEY: ${{ secrets.PROD_GCP_KEY }}
+    runs-on: macos-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@master
+      - name: install firebase
+        run: npm install --save-dev firebase-tools
+        # 認証情報を保持するjsonファイルをGOOGLE_APPLICATION_CREDENTIALSで指定したpassに生成
+      - name: make GOOGLE_APPLICATION_CREDENTIALS
+        run: echo $GCLOUD_SERVICE_KEY | base64 -d > $GOOGLE_APPLICATION_CREDENTIALS
+      - name: change environments
+        run: |
+          ./node_modules/.bin/firebase use aitcweb-prod
+      - name: deploy to hosting
+        run: |
+          ./node_modules/.bin/firebase deploy
+        # 認証用jsonファイルを削除
+      - name: delete GOOGLE_APPLICATION_CREDENTIALS
+        run: rm $GOOGLE_APPLICATION_CREDENTIALS
+        if: ${{ always() }}
