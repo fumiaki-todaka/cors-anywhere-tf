@@ -1,4 +1,4 @@
-app = "cors-anywhere-tf"
+app = "fly-builder-black-breeze-54"
 
 kill_signal = "SIGINT"
 kill_timeout = 5
